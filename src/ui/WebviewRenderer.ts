@@ -646,7 +646,7 @@ export class WebviewRenderer {
                             }
                         });
 
-                        // Sort symbols within each section
+                        // Sort symbols within each section (only level 3 - symbols)
                         regions.forEach(region => {
                             region.sections.forEach(section => {
                                 section.symbols.sort((a, b) => {
@@ -666,40 +666,6 @@ export class WebviewRenderer {
                                     return 0;
                                 });
                             });
-
-                            // Sort sections within region
-                            region.sections.sort((a, b) => {
-                                let valA, valB;
-                                if (field === 'name') {
-                                    valA = a.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
-                                    valB = b.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
-                                    return isAscending ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                                } else if (field === 'size') {
-                                    const sizeTextA = a.row.querySelector('td:nth-child(4)').textContent.trim();
-                                    const sizeTextB = b.row.querySelector('td:nth-child(4)').textContent.trim();
-                                    valA = parseSizeToBytes(sizeTextA);
-                                    valB = parseSizeToBytes(sizeTextB);
-                                    return isAscending ? valA - valB : valB - valA;
-                                }
-                                return 0;
-                            });
-                        });
-
-                        // Sort regions
-                        regions.sort((a, b) => {
-                            let valA, valB;
-                            if (field === 'name') {
-                                valA = a.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
-                                valB = b.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
-                                return isAscending ? valA.localeCompare(valB) : valB.localeCompare(valA);
-                            } else if (field === 'size') {
-                                const sizeTextA = a.row.querySelector('td:nth-child(4)').textContent.trim();
-                                const sizeTextB = b.row.querySelector('td:nth-child(4)').textContent.trim();
-                                valA = parseSizeToBytes(sizeTextA);
-                                valB = parseSizeToBytes(sizeTextB);
-                                return isAscending ? valA - valB : valB - valA;
-                            }
-                            return 0;
                         });
 
                         // Rebuild table with updated IDs
