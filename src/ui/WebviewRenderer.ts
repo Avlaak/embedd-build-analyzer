@@ -95,7 +95,7 @@ export class WebviewRenderer {
                 table.gray {
                     background-color: var(--vscode-editor-background);
                     color: var(--vscode-editor-foreground);
-                    font-family: var(--vscode-editor-font-family);
+                    font-family: var(--vscode-font-family);
                     width: 100%;
                     text-align: left;
                     border-collapse: collapse;
@@ -156,6 +156,8 @@ export class WebviewRenderer {
                     border-radius: 2px;
                     height: 26px;
                     box-sizing: border-box;
+                    font-family: var(--vscode-font-family);
+                    font-size: 13px;
                 }
 
                 #refreshButton:hover,
@@ -193,7 +195,7 @@ export class WebviewRenderer {
                     background-color: transparent;
                     color: var(--vscode-input-foreground);
                     border: none;
-                    font-family: var(--vscode-editor-font-family);
+                    font-family: var(--vscode-font-family);
                     font-size: 13px;
                     height: 22px;
                     box-sizing: border-box;
@@ -223,7 +225,8 @@ export class WebviewRenderer {
                     background-color: transparent;
                     border: none;
                     color: var(--vscode-input-foreground);
-                    font-size: 12px;
+                    font-family: var(--vscode-font-family);
+                    font-size: 13px;
                     font-weight: bold;
                     opacity: 0.7;
                 }
@@ -242,16 +245,18 @@ export class WebviewRenderer {
 
                 .search-option[title="Match Case"] {
                     font-size: 13px;
-                    text-decoration: underline;
+                    font-weight: normal;
                 }
 
                 .search-option[title="Match Whole Word"] {
-                    font-size: 11px;
+                    font-size: 13px;
+                    font-weight: normal;
                     text-decoration: underline;
                 }
 
                 .search-option[title="Use Regular Expression"] {
-                    font-size: 11px;
+                    font-size: 13px;
+                    font-weight: normal;
                 }
 
                 .search-highlight {
@@ -259,9 +264,59 @@ export class WebviewRenderer {
                 }
 
                 .search-match-count {
-                    font-size: 12px;
+                    font-family: var(--vscode-font-family);
+                    font-size: 13px;
                     color: var(--vscode-descriptionForeground);
                     white-space: nowrap;
+                }
+
+                .sort-widget {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    margin-left: 8px;
+                }
+
+                .sort-label {
+                    font-family: var(--vscode-font-family);
+                    font-size: 13px;
+                    color: var(--vscode-descriptionForeground);
+                }
+
+                .sort-select {
+                    padding: 3px 6px;
+                    background-color: var(--vscode-dropdown-background);
+                    color: var(--vscode-dropdown-foreground);
+                    border: 1px solid var(--vscode-dropdown-border);
+                    border-radius: 2px;
+                    font-family: var(--vscode-font-family);
+                    font-size: 13px;
+                    height: 24px;
+                    cursor: pointer;
+                }
+
+                .sort-select:focus {
+                    outline: 1px solid var(--vscode-focusBorder);
+                    border-color: var(--vscode-focusBorder);
+                }
+
+                .sort-direction {
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    border-radius: 3px;
+                    background-color: var(--vscode-button-secondaryBackground);
+                    border: 1px solid var(--vscode-button-secondaryBorder);
+                    color: var(--vscode-button-secondaryForeground);
+                    font-family: var(--vscode-font-family);
+                    font-size: 13px;
+                }
+
+                .sort-direction:hover {
+                    background-color: var(--vscode-button-secondaryHoverBackground);
                 }
 
             </style>
@@ -279,6 +334,15 @@ export class WebviewRenderer {
                     </div>
                 </div>
                 <span id="searchMatchCount" class="search-match-count"></span>
+                <div class="sort-widget">
+                    <span class="sort-label">Sort:</span>
+                    <select id="sortField" class="sort-select">
+                        <option value="none">None</option>
+                        <option value="name">Name</option>
+                        <option value="size">Size</option>
+                    </select>
+                    <button id="sortDirection" class="sort-direction" title="Toggle sort direction">↑</button>
+                </div>
             </div>
             <div class="current-build-folder-path-container">
                 <label><strong>Current Build Folder:</strong></label>
@@ -535,6 +599,144 @@ export class WebviewRenderer {
                             performSearch(searchInput.value.trim());
                         });
                     });
+
+                    // Sort functionality
+                    const sortField = document.getElementById('sortField');
+                    const sortDirection = document.getElementById('sortDirection');
+                    let isAscending = true;
+
+                    sortField.addEventListener('change', () => {
+                        applySorting();
+                    });
+
+                    sortDirection.addEventListener('click', () => {
+                        isAscending = !isAscending;
+                        sortDirection.textContent = isAscending ? '↑' : '↓';
+                        sortDirection.title = isAscending ? 'Ascending' : 'Descending';
+                        applySorting();
+                    });
+
+                    function applySorting() {
+                        const field = sortField.value;
+                        if (field === 'none') {
+                            // Request refresh to restore original order
+                            vscode.postMessage({ command: 'requestRefresh' });
+                            return;
+                        }
+
+                        const tableBody = document.getElementById('regionsBody');
+                        const allRows = Array.from(tableBody.querySelectorAll('.toggleTr'));
+                        
+                        // Group rows by hierarchy
+                        const regions = [];
+                        let currentRegion = null;
+                        let currentSection = null;
+
+                        allRows.forEach(row => {
+                            const level = parseInt(row.getAttribute('data-level'), 10);
+                            if (level === 1) {
+                                currentRegion = { row: row, sections: [] };
+                                regions.push(currentRegion);
+                                currentSection = null;
+                            } else if (level === 2 && currentRegion) {
+                                currentSection = { row: row, symbols: [] };
+                                currentRegion.sections.push(currentSection);
+                            } else if (level === 3 && currentSection) {
+                                currentSection.symbols.push(row);
+                            }
+                        });
+
+                        // Sort symbols within each section
+                        regions.forEach(region => {
+                            region.sections.forEach(section => {
+                                section.symbols.sort((a, b) => {
+                                    let valA, valB;
+                                    if (field === 'name') {
+                                        valA = a.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                                        valB = b.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                                        return isAscending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                                    } else if (field === 'size') {
+                                        // Extract size in bytes from the 4th column
+                                        const sizeTextA = a.querySelector('td:nth-child(4)').textContent.trim();
+                                        const sizeTextB = b.querySelector('td:nth-child(4)').textContent.trim();
+                                        valA = parseSizeToBytes(sizeTextA);
+                                        valB = parseSizeToBytes(sizeTextB);
+                                        return isAscending ? valA - valB : valB - valA;
+                                    }
+                                    return 0;
+                                });
+                            });
+
+                            // Sort sections within region
+                            region.sections.sort((a, b) => {
+                                let valA, valB;
+                                if (field === 'name') {
+                                    valA = a.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                                    valB = b.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                                    return isAscending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                                } else if (field === 'size') {
+                                    const sizeTextA = a.row.querySelector('td:nth-child(4)').textContent.trim();
+                                    const sizeTextB = b.row.querySelector('td:nth-child(4)').textContent.trim();
+                                    valA = parseSizeToBytes(sizeTextA);
+                                    valB = parseSizeToBytes(sizeTextB);
+                                    return isAscending ? valA - valB : valB - valA;
+                                }
+                                return 0;
+                            });
+                        });
+
+                        // Sort regions
+                        regions.sort((a, b) => {
+                            let valA, valB;
+                            if (field === 'name') {
+                                valA = a.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                                valB = b.row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                                return isAscending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                            } else if (field === 'size') {
+                                const sizeTextA = a.row.querySelector('td:nth-child(4)').textContent.trim();
+                                const sizeTextB = b.row.querySelector('td:nth-child(4)').textContent.trim();
+                                valA = parseSizeToBytes(sizeTextA);
+                                valB = parseSizeToBytes(sizeTextB);
+                                return isAscending ? valA - valB : valB - valA;
+                            }
+                            return 0;
+                        });
+
+                        // Rebuild table with updated IDs
+                        tableBody.innerHTML = '';
+                        let newId = 0;
+                        regions.forEach(region => {
+                            newId++;
+                            const regionId = newId;
+                            region.row.setAttribute('data-id', regionId);
+                            tableBody.appendChild(region.row);
+                            
+                            region.sections.forEach(section => {
+                                newId++;
+                                const sectionId = newId;
+                                section.row.setAttribute('data-id', sectionId);
+                                section.row.setAttribute('data-parent', regionId);
+                                tableBody.appendChild(section.row);
+                                
+                                section.symbols.forEach(symbol => {
+                                    newId++;
+                                    symbol.setAttribute('data-id', newId);
+                                    symbol.setAttribute('data-parent', sectionId);
+                                    tableBody.appendChild(symbol);
+                                });
+                            });
+                        });
+                    }
+
+                    function parseSizeToBytes(sizeText) {
+                        // Parse formats like "128 KB", "1.5 MB", "256 B", "100 B"
+                        const match = sizeText.match(/([\\d.]+)\\s*(B|KB|MB|GB|TB)?/i);
+                        if (!match) return 0;
+                        const value = parseFloat(match[1]);
+                        const unit = (match[2] || 'B').toUpperCase();
+                        const multipliers = { 'B': 1, 'KB': 1024, 'MB': 1024*1024, 'GB': 1024*1024*1024, 'TB': 1024*1024*1024*1024 };
+                        return value * (multipliers[unit] || 1);
+                    }
                 });
 
                 function performSearch(query) {
