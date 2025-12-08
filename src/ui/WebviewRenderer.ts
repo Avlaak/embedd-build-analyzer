@@ -730,6 +730,8 @@ export class WebviewRenderer {
                                 const toggle = row.querySelector('.toggle');
                                 if (toggle) toggle.textContent = '+';
                             } else {
+                                const toggle = row.querySelector('.toggle');
+                                if (toggle) toggle.textContent = '+';
                                 row.style.display = 'none';
                             }
                         });
@@ -831,6 +833,11 @@ export class WebviewRenderer {
 
                 document.getElementById('regionsTable').addEventListener('click', (e) => {
                     const toggleSpan = e.target.closest('.toggle');
+
+                    const searchInput = document.getElementById('searchInput');
+                    if (searchInput && searchInput.value) {
+                        return;
+                    }
                     if (toggleSpan) {
                         const tr = toggleSpan.closest('tr');
                         const level = parseInt(tr.getAttribute('data-level'), 10);
@@ -839,6 +846,11 @@ export class WebviewRenderer {
                         const childRows = document.querySelectorAll(\`tr[data-parent="\${parentId}"]\`);
                         childRows.forEach(child => {
                             child.style.display = child.style.display === 'none' ? '' : 'none';
+                            if (child.style.display === 'none')
+                            {
+                                const toggle = child.querySelector('.toggle');
+                                if (toggle) toggle.textContent = '+';
+                            }
                             const childId = child.getAttribute('data-id');
                             const childLevel = parseInt(child.getAttribute('data-level'), 10);
                             if (child.style.display === 'none' && childLevel === 2) {
