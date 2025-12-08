@@ -932,6 +932,17 @@ export class WebviewRenderer {
                 }
 
                 document.getElementById('regionsTable').addEventListener('click', (e) => {
+                    const sourceLink = e.target.closest('.source-link');
+                    if (sourceLink) {
+                        e.preventDefault();
+                        vscode.postMessage({
+                            command: 'openFile',
+                            filePath: sourceLink.dataset.file,
+                            lineNumber: parseInt(sourceLink.dataset.line, 10)
+                        });
+                        return;
+                    }
+
                     const toggleSpan = e.target.closest('.toggle');
 
                     const searchInput = document.getElementById('searchInput');
@@ -964,16 +975,6 @@ export class WebviewRenderer {
                         });
 
                         toggleSpan.textContent = toggleSpan.textContent === '+' ? '−' : '+';
-                    }
-
-                    const sourceLink = e.target.closest('.source-link');
-                    if (sourceLink) {
-                        e.preventDefault();
-                        vscode.postMessage({
-                            command: 'openFile',
-                            filePath: sourceLink.dataset.file,
-                            lineNumber: parseInt(sourceLink.dataset.line, 10)
-                        });
                     }
                 });
 
