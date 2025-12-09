@@ -377,7 +377,7 @@ export class WebviewRenderer {
 
                 #regionsTable tbody {
                     display: block;
-                    height: calc(99vh - 34px);
+                    height: calc(99vh - 70px);
                     overflow-y: auto;
                 }
 
