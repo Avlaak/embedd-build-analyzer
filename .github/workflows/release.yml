@@ -73,7 +73,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ env.VSIX_NAME }}-${{ env.VERSION }}.vsix
           asset_name: ${{env.PACKAGE_NAME}}-${{ env.VERSION }}.vsix
-          tag: ${{ env.VERSION }}
+          tag: "v${{ env.VERSION }}"
 
       - name: Publish extension to marketplace
         if: env.IS_PRERELEASE == 'false'
