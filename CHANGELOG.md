@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.4] – 2025‑12‑16
+
 ### Changed
 * Update package name to embedd and adjust publisher.
 
