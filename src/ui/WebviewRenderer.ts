@@ -20,7 +20,7 @@ export class WebviewRenderer {
     private readonly view: vscode.WebviewView
   ) {
     this.debug = vscode.workspace
-      .getConfiguration('EmbeddedBuildAnalyzer')
+      .getConfiguration('EmbeddBuildAnalyzer')
       .get<boolean>('debug') ?? false;
   }
 
@@ -43,10 +43,10 @@ export class WebviewRenderer {
 
       switch (msg.command) {
         case 'requestRefresh':
-          vscode.commands.executeCommand('EmbeddedBuildAnalyzer.refresh');
+          vscode.commands.executeCommand('EmbeddBuildAnalyzer.refresh');
           break;
         case 'refreshPaths':
-          vscode.commands.executeCommand('EmbeddedBuildAnalyzer.refreshPaths');
+          vscode.commands.executeCommand('EmbeddBuildAnalyzer.refreshPaths');
           break;
         case 'openFile':
           this.openFile(msg.filePath, msg.lineNumber);

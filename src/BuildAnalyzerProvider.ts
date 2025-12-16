@@ -14,7 +14,7 @@ export class BuildAnalyzerProvider implements vscode.WebviewViewProvider {
   private readonly debug: boolean;
 
   constructor(private readonly context: vscode.ExtensionContext) {
-    const cfg = vscode.workspace.getConfiguration('EmbeddedBuildAnalyzer');
+    const cfg = vscode.workspace.getConfiguration('EmbeddBuildAnalyzer');
     this.debug = cfg.get<boolean>('debug') ?? false;
 
     this.watcher  = new FileWatcherService(context, () => this.refresh());

@@ -1,4 +1,4 @@
-# Embedded Build Analyzer 🚀  
+# Embedd Build Analyzer 🚀  
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![VS Code](https://img.shields.io/badge/VS%20Code-Extension-blue?logo=visualstudiocode)](#)
 
@@ -10,7 +10,7 @@
 
 ## ❓ About This Extension
 
-This extension is part of the **[Embedded Project Manager](https://github.com/embeddteam/EmbeddedProjectManager.git)** – a comprehensive toolkit for embedded systems development in VS Code.
+This extension is part of the **[Embedd Project Manager](https://github.com/embeddteam/EmbeddedProjectManager.git)** – a comprehensive toolkit for embedded systems development in VS Code.
 
 ---
 
@@ -38,9 +38,9 @@ This extension is part of the **[Embedded Project Manager](https://github.com/em
 
 ## 📦 Installation
 
-### From VS Code Marketplace (Coming soon)
+### From VS Code Marketplace
 
-📥 [Marketplace link placeholder](https://marketplace.visualstudio.com/items?itemName=embeddteam.embedded-build-analyzer#)
+📥 [Marketplace link placeholder](https://marketplace.visualstudio.com/items?itemName=embedd-team.embedd-build-analyzer#)
 
 ### Manual Installation
 
@@ -59,8 +59,8 @@ This extension is part of the **[Embedded Project Manager](https://github.com/em
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/avlaak/embedded-build-analyzer.git
-   cd embedded-build-analyzer
+   git clone https://github.com/avlaak/embedd-build-analyzer.git
+   cd embedd-build-analyzer
    ```
 
 2. Install dependencies:
@@ -75,12 +75,12 @@ This extension is part of the **[Embedded Project Manager](https://github.com/em
    vsce package
    ```
 
-4. This will generate a file like: `embedded-build-analyzer-1.1.3.vsix`
+4. This will generate a file like: `embedd-build-analyzer-1.1.4.vsix`
 
 5. Install the extension in VS Code:
 
    ```bash
-   code --install-extension embedded-build-analyzer-1.1.3.vsix
+   code --install-extension embedd-build-analyzer-1.1.4.vsix
    ```
 
 
@@ -89,8 +89,8 @@ This extension is part of the **[Embedded Project Manager](https://github.com/em
 ## 🛠 Usage
 
 - Open the Command Palette (`Ctrl+Shift+P`) and run:
-  - `Embedded Build Analyzer` – opens the main view
-  - `Embedded Build Analyzer Refresh Paths` – re-detects build output folder
+  - `Embedd Build Analyzer` – opens the main view
+  - `Embedd Build Analyzer Refresh Paths` – re-detects build output folder
 - Analyzer view updates automatically when build output files change.
 
 ---
@@ -111,7 +111,7 @@ Contributions are welcome! Please fork the repo and submit a pull request:
 4. Push to branch (`git push origin feature-name`)
 5. Open a Pull Request
 
-If you find bugs or want to request features, feel free to [open an issue](https://github.com/avlaak/embedded-build-analyzer/issues).
+If you find bugs or want to request features, feel free to [open an issue](https://github.com/avlaak/embedd-build-analyzer/issues).
 
 
 ---
@@ -125,9 +125,9 @@ Fork maintained by [avlaak](https://github.com/avlaak) with enhancements describ
 ---
 
 <!-- SEO note -->
-Embedded Build Analyzer for memory usage, symbol tracking, and map/elf inspection – compatible with Makefiles, CubeIDE, and other toolchains.
+Embedd Build Analyzer for memory usage, symbol tracking, and map/elf inspection – compatible with Makefiles, CubeIDE, and other toolchains.
 
-## ❤️ Thank you for using this version of Embedded Build Analyzer!
+## ❤️ Thank you for using this version of Embedd Build Analyzer!
 
 </br></br>
 <div align="center">

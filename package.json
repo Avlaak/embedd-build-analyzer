@@ -1,9 +1,9 @@
 {
-  "name": "embedded-build-analyzer",
-  "displayName": "Embedded Build Analyzer",
-  "description": "Embedded Build Analyzer for VSCode - Fork of niwciu/stm32-build-analyzer with additional features...",
+  "name": "embedd-build-analyzer",
+  "displayName": "Embedd Build Analyzer",
+  "description": "Embedd Build Analyzer for VSCode - Fork of niwciu/stm32-build-analyzer with additional features...",
   "version": "1.1.3",
-  "publisher": "embeddteam",
+  "publisher": "embedd-team",
   "license": "MIT",
   "icon": "images/icon.png",
   "engines": {
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/avlaak/embedded-build-analyzer.git"
+    "url": "https://github.com/avlaak/embedd-build-analyzer.git"
   },
   "activationEvents": [],
   "main": "./dist/extension.js",
@@ -25,33 +25,33 @@
     },
     "commands": [
       {
-        "command": "EmbeddedBuildAnalyzer.openTab",
-        "title": "Embedded Build Analyzer"
+        "command": "EmbeddBuildAnalyzer.openTab",
+        "title": "Embedd Build Analyzer"
       },
       {
-        "command": "EmbeddedBuildAnalyzer.refresh",
-        "title": "Embedded Build Analyzer Refresh Paths"
+        "command": "EmbeddBuildAnalyzer.refresh",
+        "title": "Embedd Build Analyzer Refresh Paths"
       }
     ],
     "configuration": {
-      "title": "Embedded Build Analyzer",
+      "title": "Embedd Build Analyzer",
       "properties": {
-        "EmbeddedBuildAnalyzer.mapFilePath": {
+        "EmbeddBuildAnalyzer.mapFilePath": {
           "type": "string",
           "default": "",
           "description": "Absolute path to the .map file (overrides automatic search)"
         },
-        "EmbeddedBuildAnalyzer.elfFilePath": {
+        "EmbeddBuildAnalyzer.elfFilePath": {
           "type": "string",
           "default": "",
           "description": "Absolute path to the .elf file (overrides automatic search)"
         },
-        "EmbeddedBuildAnalyzer.toolchainPath": {
+        "EmbeddBuildAnalyzer.toolchainPath": {
           "type": "string",
           "default": "",
           "description": "Absolute path to the ARM GNU Embedded toolchain binaries (directory containing arm-none-eabi-objdump, arm-none-eabi-nm, etc.). If set, the extension will use these tools instead of relying solely on PATH."
         },
-        "EmbeddedBuildAnalyzer.debug": {
+        "EmbeddBuildAnalyzer.debug": {
           "type": "boolean",
           "default": false,
           "description": "Enable verbose logging for debugging purposes."
@@ -61,17 +61,17 @@
     "viewsContainers": {
       "panel": [
         {
-          "id": "embeddedBuildAnalyzerPanel",
-          "title": "Embedded Build Analyzer",
+          "id": "embeddBuildAnalyzerPanel",
+          "title": "Embedd Build Analyzer",
           "icon": "$(output)"
         }
       ]
     },
     "views": {
-      "embeddedBuildAnalyzerPanel": [
+      "embeddBuildAnalyzerPanel": [
         {
-          "id": "embeddedBuildAnalyzer",
-          "name": "Embedded Build Analyzer",
+          "id": "embeddBuildAnalyzer",
+          "name": "Embedd Build Analyzer",
           "type": "webview",
           "icon": "$(output)"
         }

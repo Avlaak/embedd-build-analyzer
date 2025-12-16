@@ -6,8 +6,8 @@ on:
 env:
   VERSION: ''
   IS_PRERELEASE: 'false'
-  PACKAGE_NAME: 'EmbeddedBuildAnalyzer'
-  VSIX_NAME: 'embedded-build-analyzer'
+  PACKAGE_NAME: 'EmbeddBuildAnalyzer'
+  VSIX_NAME: 'embedd-build-analyzer'
 
 jobs:
   release:

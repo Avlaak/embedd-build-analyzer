@@ -1,5 +1,8 @@
 # Changelog
 
+### Changed
+* Update package name to embedd and adjust publisher.
+
 ## [1.1.3] – 2025‑12‑15
 
 ### Added
@@ -18,7 +21,7 @@
 
 ### Added
 - New `toolchainPath` configuration option allowing users to specify a custom path to the ARM GCC toolchain (e.g., when not available in the system `$PATH`).
-- Added `debug` logging option (`EmbeddedBuildAnalyzer.debug`) for easier extension troubleshooting.
+- Added `debug` logging option (`EmbeddBuildAnalyzer.debug`) for easier extension troubleshooting.
 - Console logs now available via `console.log()` in `Extension Host` output.
 - Added log messages to key services (`BuildFolderResolver`, `MapElfParser`, `BuildAnalyzerProvider`) to aid in debugging and development.
 - Webview now shows current selected build folder.

@@ -13,12 +13,12 @@ export class BuildFolderResolver {
 
   constructor(private readonly context: vscode.ExtensionContext) {
     this.debug = vscode.workspace
-      .getConfiguration('EmbeddedBuildAnalyzer')
+      .getConfiguration('EmbeddBuildAnalyzer')
       .get<boolean>('debug') ?? false;
   }
 
   public async resolve(): Promise<BuildPaths> {
-    const cfg = vscode.workspace.getConfiguration('EmbeddedBuildAnalyzer');
+    const cfg = vscode.workspace.getConfiguration('EmbeddBuildAnalyzer');
     const customMap = cfg.get<string>('mapFilePath');
     const customElf = cfg.get<string>('elfFilePath');
 
@@ -104,7 +104,7 @@ export class BuildFolderResolver {
   }
 
   private async getToolchainPath(): Promise<string | undefined> {
-    const cfg = vscode.workspace.getConfiguration('EmbeddedBuildAnalyzer');
+    const cfg = vscode.workspace.getConfiguration('EmbeddBuildAnalyzer');
     const toolchain = cfg.get<string>('toolchainPath');
 
     if (!toolchain) {return undefined;}
@@ -112,12 +112,12 @@ export class BuildFolderResolver {
     if (await this.exists(toolchain)) {
       if (this.debug) {console.log(`[Extension] Using toolchain: ${toolchain}`);}
       vscode.window.showInformationMessage(
-        `Embedded Build Analyzer: Using toolchain from ${toolchain}`
+        `Embedd Build Analyzer: Using toolchain from ${toolchain}`
       );
       return toolchain;
     } else {
       vscode.window.showWarningMessage(
-        `Embedded Build Analyzer: toolchainPath not found: ${toolchain}`
+        `Embedd Build Analyzer: toolchainPath not found: ${toolchain}`
       );
       if (this.debug) {console.warn(`[Extension] Toolchain path not found: ${toolchain}`);}
     }

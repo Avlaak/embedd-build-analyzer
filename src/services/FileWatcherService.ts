@@ -15,11 +15,11 @@ export class FileWatcherService {
     this.watcher = vscode.workspace.createFileSystemWatcher('**/*.{map,elf}');
     this.context.subscriptions.push(this.watcher);
 
-    const debug = vscode.workspace.getConfiguration('EmbeddedBuildAnalyzer').get<boolean>('debug');
+    const debug = vscode.workspace.getConfiguration('EmbeddBuildAnalyzer').get<boolean>('debug');
 
     const wrappedHandler = (event: vscode.Uri) => {
       if (debug) {
-        console.log(`[Embedded Build Analyzer] File event on: ${event.fsPath}`);
+        console.log(`[Embedd Build Analyzer] File event on: ${event.fsPath}`);
       }
       this.onChange();
     };
