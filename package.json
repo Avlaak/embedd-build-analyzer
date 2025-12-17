@@ -2,7 +2,7 @@
   "name": "embedd-build-analyzer",
   "displayName": "Embedd Build Analyzer",
   "description": "Embedd Build Analyzer for VSCode - Fork of niwciu/stm32-build-analyzer with additional features...",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "publisher": "embedd-team",
   "license": "MIT",
   "icon": "images/icon.png",
