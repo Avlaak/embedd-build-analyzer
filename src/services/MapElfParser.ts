@@ -6,7 +6,7 @@ export class MapElfParser {
   constructor(
     private readonly toolchainPath: string,
     private readonly debug: boolean = false
-  ) {}
+  ) { }
 
   public parse(mapPath: string, elfPath: string): Region[] {
     if (this.debug) {
@@ -95,7 +95,7 @@ export class MapElfParser {
 
   private parseSymbols(elfFile: string, regions: Region[]): void {
     const cmd = this.getTool('arm-none-eabi-nm');
-    const out = cp.spawnSync(cmd, ['-C', '-S', '-n', '-l', '--defined-only', elfFile], {maxBuffer: 32 * 1024 * 1024});
+    const out = cp.spawnSync(cmd, ['-C', '-S', '-n', '-l', '--defined-only', elfFile], { maxBuffer: 32 * 1024 * 1024 });
 
     if (out.error) {
       if (this.debug) { console.error(`[Embedd Build Analyzer] nm error: ${out.error.message}`); }
@@ -103,12 +103,22 @@ export class MapElfParser {
     }
 
     const lines = out.stdout.toString().split('\n');
-    const symRx = /^([0-9A-Fa-f]+)\s+([0-9A-Fa-f]+)?\s*\w\s+(\S+)\s*(\S*)/;
+    const symRx = /^([0-9A-Fa-f]+)\s+([0-9A-Fa-f]+)?\s*\w\s+([^\t]*)\t*(\S*)/;
     const pathRx = /(.*):(\d+)$/;
 
+    let matchedCount = 0;
+    const unmatchedLines: string[] = [];
+
     for (const l of lines) {
+      if (l.trim() === '') { continue; } // Skip empty lines
+
       const m = symRx.exec(l);
-      if (!m) { continue; }
+      if (!m) {
+        unmatchedLines.push(l);
+        continue;
+      }
+
+      matchedCount++;
 
       const addr = parseInt(m[1], 16),
         size = isNaN(parseInt(m[2] || '0', 16)) ? 0 : parseInt(m[2]!, 16),
@@ -137,6 +147,15 @@ export class MapElfParser {
           }
         }
       }
+    }
+
+    console.log(`[Embedd Build Analyzer] Total lines: ${lines.length}, Matched: ${matchedCount}, Unmatched: ${unmatchedLines.length}`);
+    if (unmatchedLines.length > 0) {
+      const maxUnmatched = 10;
+      console.log(`[Embedd Build Analyzer] First ${unmatchedLines.length > maxUnmatched ? maxUnmatched : unmatchedLines.length} unmatched lines:`);
+      unmatchedLines.slice(0, maxUnmatched).forEach((line, i) => {
+        console.log(`  ${i + 1}: "${line}"`);
+      });
     }
   }
 

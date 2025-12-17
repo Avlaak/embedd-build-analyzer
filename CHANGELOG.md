@@ -1,5 +1,8 @@
 # Changelog
 
+### Fixed
+* Fix ELF symbol parsing for C++ demangled names.
+
 ## [1.1.4] – 2025‑12‑16
 
 ### Changed
