@@ -2,24 +2,37 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![VS Code](https://img.shields.io/badge/VS%20Code-Extension-blue?logo=visualstudiocode)](#)
 
-> Visual memory analyzer for embedded projects – works with `.map` and `.elf` files, no matter what toolchain or build system you use.
-
 ![Main UI View](images/1.png)
 
+## 🔀 Fork Manifest
+
+This extension is a fork of the [STM32 Build Analyzer (Enhanced)](https://github.com/niwciu/stm32-build-analyzer).
+
+It is developed and maintained as a component of [Embedd Project Manager](https://github.com/embeddteam/EmbeddedProjectManager.git) — a unified toolkit for embedded systems development in VS Code.
+
+### Development Philosophy
+
+While this fork evolves to meet the needs of Embedd Project Manager users, **it is not intended to diverge from upstream projects**.
+
+All improvements, fixes, and enhancements introduced here are:
+- Implemented with **upstream compatibility in mind**
+- Submitted back to the original projects via **pull requests**
+- Kept in sync through a **fast update and rebase cycle**
+
+### Fast Iteration, Real Users
+
+The primary goal of this fork is to enable:
+- **Rapid iteration**
+- **Early shipping**
+- **Validation on real users**
+
+This allows us to provide a **better and faster experience** for Embedd Project Manager users, while ensuring that the upstream ecosystem benefits from every improvement made here.
+
 ---
 
-## ❓ About This Extension
+## ℹ️ About This Extension
 
-This extension is part of the **[Embedd Project Manager](https://github.com/embeddteam/EmbeddedProjectManager.git)** – a comprehensive toolkit for embedded systems development in VS Code.
-
----
-
-## 🚀 Key Improvements in This Fork
-
-✅ **Removed CMake dependency** – Works with any build system (Makefile, CubeIDE, etc.)  
-✅ **Custom build folder support** – Easily set via UI button or command  
-✅ **Improved file discovery** – More robust handling of `.map` and `.elf` files  
-✅ **Optimized UI** – Visual memory usage indicators and new interactive controls  
+Visual memory analyzer for embedded projects – works with `.map` and `.elf` files, no matter what toolchain or build system you use.
 
 ---
 
@@ -126,14 +139,3 @@ Fork maintained by [avlaak](https://github.com/avlaak) with enhancements describ
 
 <!-- SEO note -->
 Embedd Build Analyzer for memory usage, symbol tracking, and map/elf inspection – compatible with Makefiles, CubeIDE, and other toolchains.
-
-## ❤️ Thank you for using this version of Embedd Build Analyzer!
-
-</br></br>
-<div align="center">
-
-***
-
-![myEmbeddedWayBanerWhiteSmaller](https://github.com/user-attachments/assets/f4825882-e285-4e02-a75c-68fc86ff5716)
-***
-</div>
