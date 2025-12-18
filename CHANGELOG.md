@@ -24,6 +24,8 @@
 - Fixed tree expandability state setting.
 - Remove duplicates path on Windows and macOS.
 
+# Before Fork History
+
 ## [1.1.2] – 2025‑06‑20
 
 ### Added
