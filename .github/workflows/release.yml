@@ -78,7 +78,7 @@ jobs:
         if: env.IS_PRERELEASE == 'false'
         run: npm run deploy
         env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          VSCE_PAT: ${{ secrets.VS_MARKETPLACE_TOKEN }}
 
       - name: Publish extension to open-vsx
         if: env.IS_PRERELEASE == 'false'
