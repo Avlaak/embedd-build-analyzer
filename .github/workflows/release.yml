@@ -80,3 +80,6 @@ jobs:
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
+      - name: Publish extension to open-vsx
+        if: env.IS_PRERELEASE == 'false'
+        run: npx ovsx publish -p ${{secrets.OPEN_VSX_TOKEN}} ${{ env.VSIX_NAME }}-${{ env.VERSION }}.vsix
