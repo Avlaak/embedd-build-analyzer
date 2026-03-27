@@ -1,5 +1,8 @@
 # Changelog
 
+### Changed
+- Update logo.
+
 ## [1.1.5] – 2025‑12‑17
 
 ### Fixed
