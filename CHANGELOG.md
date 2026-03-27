@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.6] - 2026-03-27
+
 ### Changed
 - Update logo.
 
