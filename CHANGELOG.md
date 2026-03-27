@@ -3,12 +3,12 @@
 ## [1.1.5] – 2025‑12‑17
 
 ### Fixed
-* Fix ELF symbol parsing for C++ demangled names.
+- Fix ELF symbol parsing for C++ demangled names.
 
 ## [1.1.4] – 2025‑12‑16
 
 ### Changed
-* Update package name to embedd and adjust publisher.
+- Update package name to embedd and adjust publisher.
 
 ## [1.1.3] – 2025‑12‑15
 
