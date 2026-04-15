@@ -34,6 +34,10 @@
       {
         "command": "EmbeddBuildAnalyzer.refresh",
         "title": "Embedd Build Analyzer Refresh Paths"
+      },
+      {
+        "command": "EmbeddBuildAnalyzer.checkUpdates",
+        "title": "Embedd Build Analyzer: Check for updates"
       }
     ],
     "configuration": {
@@ -58,6 +62,12 @@
           "type": "boolean",
           "default": false,
           "description": "Enable verbose logging for debugging purposes."
+        },
+        "EmbeddBuildAnalyzer.autoCheckUpdates": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically check for extension updates on startup",
+          "scope": "application"
         }
       }
     },

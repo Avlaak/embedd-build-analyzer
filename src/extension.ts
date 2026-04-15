@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { BuildAnalyzerProvider } from './BuildAnalyzerProvider';
+import { checkForUpdates, scheduleAutoUpdateCheck } from './updater';
 
 let provider: BuildAnalyzerProvider;
 
@@ -24,12 +25,19 @@ export function activate(context: vscode.ExtensionContext) {
       return provider.fullRefresh();
     }),
 
+    vscode.commands.registerCommand('EmbeddBuildAnalyzer.checkUpdates', () => {
+      if (debug) {console.log('[Embedd Build Analyzer] Command: checkUpdates');}
+      return checkForUpdates(false);
+    }),
+
     vscode.window.registerWebviewViewProvider('embeddBuildAnalyzer', provider)
   );
 
   if (debug) {
     console.log('[Embedd Build Analyzer] Commands and WebviewViewProvider registered.');
   }
+
+  scheduleAutoUpdateCheck(context);
 }
 
 export function deactivate() {
