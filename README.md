@@ -1,4 +1,5 @@
-# Embedd Build Analyzer 🚀  
+# Embedd Build Analyzer 🚀
+
 [![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/embedd-team.embedd-build-analyzer.svg)](https://marketplace.visualstudio.com/items?itemName=embedd-team.embedd-build-analyzer)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Open VSX](https://img.shields.io/badge/Open%20VSX-Published-green)](https://open-vsx.org/extension/embedd-team/embedd-build-analyzer)
@@ -17,6 +18,7 @@ It is developed and maintained as a component of [Embedd Project Manager](https:
 While this fork evolves to meet the needs of Embedd Project Manager users, **it is not intended to diverge from upstream projects**.
 
 All improvements, fixes, and enhancements introduced here are:
+
 - Implemented with **upstream compatibility in mind**
 - Submitted back to the original projects via **pull requests**
 - Kept in sync through a **fast update and rebase cycle**
@@ -24,6 +26,7 @@ All improvements, fixes, and enhancements introduced here are:
 ### Fast Iteration, Real Users
 
 The primary goal of this fork is to enable:
+
 - **Rapid iteration**
 - **Early shipping**
 - **Validation on real users**
@@ -61,8 +64,8 @@ Visual memory analyzer for embedded projects – works with `.map` and `.elf` fi
 
 #### Requirements
 
-1. Node.js installed  
-2. npm installed  
+1. Node.js installed
+2. npm installed
 3. `vsce` installed:
 
    ```bash
@@ -98,7 +101,6 @@ Visual memory analyzer for embedded projects – works with `.map` and `.elf` fi
    code --install-extension embedd-build-analyzer-1.1.4.vsix
    ```
 
-
 ---
 
 ## 🛠 Usage
@@ -117,7 +119,7 @@ See [CHANGELOG.md](CHANGELOG.md) for full version history.
 ---
 
 ## 🤝 Contributing
- 
+
 Contributions are welcome! Please fork the repo and submit a pull request:
 
 1. Fork the repository
@@ -128,13 +130,12 @@ Contributions are welcome! Please fork the repo and submit a pull request:
 
 If you find bugs or want to request features, feel free to [open an issue](https://github.com/avlaak/embedd-build-analyzer/issues).
 
-
 ---
 
 ## ⚖️ License & Attribution
 
-This extension is licensed under the [MIT License](LICENSE).  
-Originally created by Aleksei Perevozchikov ([ATwice291](https://github.com/ATwice291))  
+This extension is licensed under the [MIT License](LICENSE).
+Originally created by Aleksei Perevozchikov ([ATwice291](https://github.com/ATwice291))
 Fork maintained by [avlaak](https://github.com/avlaak) with enhancements described above.
 
 ---

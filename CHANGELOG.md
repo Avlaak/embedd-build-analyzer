@@ -53,8 +53,6 @@
 - Fixed misleading "Build folder selection cancelled" error on first load.
 - Fixed: selection of build folder no longer silently fails if workspace folders are not open.
 
-
-
 ## 1.1.1
 - Added info about current selected build folder in consle view
 
