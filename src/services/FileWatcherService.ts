@@ -1,41 +1,41 @@
 import * as vscode from 'vscode';
 
 export class FileWatcherService {
-  private watcher?: vscode.FileSystemWatcher;
-  private disposables: vscode.Disposable[] = [];
+    private watcher?: vscode.FileSystemWatcher;
+    private disposables: vscode.Disposable[] = [];
 
-  constructor(
+    constructor(
     private readonly context: vscode.ExtensionContext,
     private readonly onChange: () => void
-  ) {}
+    ) {}
 
-  public start(): void {
-    this.dispose();
+    public start(): void {
+        this.dispose();
 
-    this.watcher = vscode.workspace.createFileSystemWatcher('**/*.{map,elf}');
-    this.context.subscriptions.push(this.watcher);
+        this.watcher = vscode.workspace.createFileSystemWatcher('**/*.{map,elf}');
+        this.context.subscriptions.push(this.watcher);
 
-    const debug = vscode.workspace.getConfiguration('EmbeddBuildAnalyzer').get<boolean>('debug');
+        const debug = vscode.workspace.getConfiguration('EmbeddBuildAnalyzer').get<boolean>('debug');
 
-    const wrappedHandler = (event: vscode.Uri) => {
-      if (debug) {
-        console.log(`[Embedd Build Analyzer] File event on: ${event.fsPath}`);
-      }
-      this.onChange();
-    };
+        const wrappedHandler = (event: vscode.Uri) => {
+            if (debug) {
+                console.log(`[Embedd Build Analyzer] File event on: ${event.fsPath}`);
+            }
+            this.onChange();
+        };
 
-    this.disposables.push(
-      this.watcher.onDidChange(wrappedHandler),
-      this.watcher.onDidCreate(wrappedHandler),
-      this.watcher.onDidDelete(wrappedHandler)
-    );
-  }
+        this.disposables.push(
+            this.watcher.onDidChange(wrappedHandler),
+            this.watcher.onDidCreate(wrappedHandler),
+            this.watcher.onDidDelete(wrappedHandler)
+        );
+    }
 
-  public dispose(): void {
-    this.watcher?.dispose();
-    this.disposables.forEach(d => d.dispose());
-    this.disposables = [];
-  }
+    public dispose(): void {
+        this.watcher?.dispose();
+        this.disposables.forEach(d => d.dispose());
+        this.disposables = [];
+    }
 }
 
 export function deactivate() {}

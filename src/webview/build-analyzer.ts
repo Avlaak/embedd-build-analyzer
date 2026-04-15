@@ -50,7 +50,7 @@ function getIconUris(): IconUris {
 
 function formatBytes(bytes: number, decimals = 2): string {
     if (bytes <= 0) {
-      return '0 B';
+        return '0 B';
     }
     const k = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -69,7 +69,7 @@ function resetTableRegions(): void {
 function fillTableRegions(regions: Region[]): void {
     const tableBody = document.getElementById('regionsBody');
     if (!tableBody) {
-      return;
+        return;
     }
 
     tableBody.innerHTML = '';
@@ -99,8 +99,8 @@ function fillTableRegions(regions: Region[]): void {
         progress.setAttribute('style', `
             width: ${percent}%; 
             background-color: ${percent > 95 ? 'var(--vscode-minimap-errorHighlight)' : 
-                             percent > 75 ? 'var(--vscode-minimap-warningHighlight)' : 
-                             'var(--vscode-minimap-infoHighlight)'}; 
+        percent > 75 ? 'var(--vscode-minimap-warningHighlight)' : 
+            'var(--vscode-minimap-infoHighlight)'}; 
             height: 100%;
             color: ${percent > 50 ? 'white' : 'black'};
             text-align: center;
@@ -258,7 +258,7 @@ function fillTableRegions(regions: Region[]): void {
 function parseSizeToBytes(sizeText: string): number {
     const match = sizeText.match(/([\d.]+)\s*(B|KB|MB|GB|TB)?/i);
     if (!match) {
-      return 0;
+        return 0;
     }
 
     const value = parseFloat(match[1]);
@@ -300,18 +300,18 @@ function performSearch(query: string): void {
                 htmlRow.style.display = '';
                 const toggle = htmlRow.querySelector('.toggle');
                 if (toggle) {
-                  toggle.textContent = '+';
+                    toggle.textContent = '+';
                 }
             } else {
                 const toggle = htmlRow.querySelector('.toggle');
                 if (toggle) {
-                  toggle.textContent = '+';
+                    toggle.textContent = '+';
                 }
                 htmlRow.style.display = 'none';
             }
         });
         if (searchMatchCount) {
-          searchMatchCount.textContent = '';
+            searchMatchCount.textContent = '';
         }
         return;
     }
@@ -331,7 +331,7 @@ function performSearch(query: string): void {
                     const searchIn = caseSensitive ? text : text.toLowerCase();
                     const idx = searchIn.indexOf(searchQuery);
                     if (idx === -1) {
-                      return false;
+                        return false;
                     }
                     const before = idx === 0 || !/[a-zA-Z0-9_]/.test(searchIn[idx - 1]);
                     const after = idx + searchQuery.length >= searchIn.length || !/[a-zA-Z0-9_]/.test(searchIn[idx + searchQuery.length]);
@@ -346,7 +346,7 @@ function performSearch(query: string): void {
         }
     } catch (e) {
         if (searchMatchCount) {
-          searchMatchCount.textContent = 'Invalid regex';
+            searchMatchCount.textContent = 'Invalid regex';
         }
         return;
     }
@@ -369,14 +369,14 @@ function performSearch(query: string): void {
                 // Mark parent section and region to show
                 const sectionId = htmlRow.getAttribute('data-parent');
                 if (sectionId) {
-                  parentsToShow.add(sectionId);
+                    parentsToShow.add(sectionId);
                 }
 
                 const sectionRow = document.querySelector(`tr[data-id="${sectionId}"]`);
                 if (sectionRow) {
                     const regionId = sectionRow.getAttribute('data-parent');
                     if (regionId) {
-                      parentsToShow.add(regionId);
+                        parentsToShow.add(regionId);
                     }
                 }
             } else {
@@ -396,24 +396,24 @@ function performSearch(query: string): void {
             if (parentsToShow.has(id)) {
                 htmlRow.style.display = '';
                 if (toggle) {
-                  toggle.textContent = '−';
+                    toggle.textContent = '−';
                 }
             } else {
                 htmlRow.style.display = 'none';
                 if (toggle) {
-                  toggle.textContent = '+';
+                    toggle.textContent = '+';
                 }
             }
         } else if (level === 2) {
             if (parentsToShow.has(id)) {
                 htmlRow.style.display = '';
                 if (toggle) {
-                  toggle.textContent = '−';
+                    toggle.textContent = '−';
                 }
             } else {
                 htmlRow.style.display = 'none';
                 if (toggle) {
-                  toggle.textContent = '+';
+                    toggle.textContent = '+';
                 }
             }
         }
@@ -429,7 +429,7 @@ function performSearch(query: string): void {
 function applySorting(field: string, isAscending: boolean): void {
     const tableBody = document.getElementById('regionsBody');
     if (!tableBody) {
-      return;
+        return;
     }
 
     const allRows = Array.from(tableBody.querySelectorAll('.toggleTr'));
@@ -576,7 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn?.addEventListener('click', () => {
             btn.classList.toggle('active');
             if (searchInput) {
-              performSearch(searchInput.value.trim());
+                performSearch(searchInput.value.trim());
             }
         });
     });
@@ -589,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
         header.addEventListener('click', () => {
             const field = header.getAttribute('data-sort');
             if (!field) {
-              return;
+                return;
             }
 
             if (currentSortField === field) {
@@ -638,7 +638,7 @@ document.getElementById('regionsTable')?.addEventListener('click', (e) => {
     if (toggleSpan) {
         const tr = toggleSpan.closest('tr');
         if (!tr) {
-          return;
+            return;
         }
 
         const parentId = tr.getAttribute('data-id');
@@ -651,7 +651,7 @@ document.getElementById('regionsTable')?.addEventListener('click', (e) => {
             if (htmlChild.style.display === 'none') {
                 const toggle = htmlChild.querySelector('.toggle');
                 if (toggle) {
-                  toggle.textContent = '+';
+                    toggle.textContent = '+';
                 }
             }
 

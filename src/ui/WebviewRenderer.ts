@@ -4,131 +4,131 @@ import * as path from 'path';
 import { Region } from '../models';
 
 function getNonce(): string {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (let i = 0; i < 32; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 32; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
 }
 
 export class WebviewRenderer {
-  private readonly debug: boolean;
+    private readonly debug: boolean;
 
-  constructor(
+    constructor(
     private readonly context: vscode.ExtensionContext,
     private readonly view: vscode.WebviewView
-  ) {
-    this.debug = vscode.workspace
-      .getConfiguration('EmbeddBuildAnalyzer')
-      .get<boolean>('debug') ?? false;
-  }
-
-  public init(): void {
-    this.view.webview.options = {
-      enableScripts: true,
-      localResourceRoots: [this.context.extensionUri]
-    };
-
-    this.view.webview.html = this.getHtml();
-
-    if (this.debug) {
-      console.log('[Embedd Build Analyzer] Initialized webview with HTML and options.');
+    ) {
+        this.debug = vscode.workspace
+            .getConfiguration('EmbeddBuildAnalyzer')
+            .get<boolean>('debug') ?? false;
     }
 
-    this.view.webview.onDidReceiveMessage(msg => {
-      if (this.debug) {
-        console.log(`[Embedd Build Analyzer] Received message:`, msg);
-      }
+    public init(): void {
+        this.view.webview.options = {
+            enableScripts: true,
+            localResourceRoots: [this.context.extensionUri]
+        };
 
-      switch (msg.command) {
-        case 'requestRefresh':
-          vscode.commands.executeCommand('EmbeddBuildAnalyzer.refresh');
-          break;
-        case 'refreshPaths':
-          vscode.commands.executeCommand('EmbeddBuildAnalyzer.refreshPaths');
-          break;
-        case 'openFile':
-          this.openFile(msg.filePath, msg.lineNumber);
-          break;
-      }
-    });
-  }
+        this.view.webview.html = this.getHtml();
 
-  public showData(regions: Region[], buildFolder: string) {
-    if (this.debug) {
-      console.log(`[Embedd Build Analyzer] Sending ${regions.length} region(s) to webview.`);
+        if (this.debug) {
+            console.log('[Embedd Build Analyzer] Initialized webview with HTML and options.');
+        }
+
+        this.view.webview.onDidReceiveMessage(msg => {
+            if (this.debug) {
+                console.log(`[Embedd Build Analyzer] Received message:`, msg);
+            }
+
+            switch (msg.command) {
+                case 'requestRefresh':
+                    vscode.commands.executeCommand('EmbeddBuildAnalyzer.refresh');
+                    break;
+                case 'refreshPaths':
+                    vscode.commands.executeCommand('EmbeddBuildAnalyzer.refreshPaths');
+                    break;
+                case 'openFile':
+                    this.openFile(msg.filePath, msg.lineNumber);
+                    break;
+            }
+        });
     }
 
-    this.view.webview.postMessage({
-      command: 'showMapData',
-      data: regions,
-      currentBuildFolderRelativePath: buildFolder
-    });
-  }
+    public showData(regions: Region[], buildFolder: string) {
+        if (this.debug) {
+            console.log(`[Embedd Build Analyzer] Sending ${regions.length} region(s) to webview.`);
+        }
 
-  private async openFile(file: string, line: number) {
-    try {
-      if (this.debug) {
-        console.log(`[Embedd Build Analyzer] Attempting to open file: ${file} @ ${line}`);
-      }
-
-      const uri = vscode.Uri.file(file);
-      const doc = await vscode.workspace.openTextDocument(uri);
-      const ed = await vscode.window.showTextDocument(doc);
-      const pos = new vscode.Position(line - 1, 0);
-      ed.selection = new vscode.Selection(pos, pos);
-      ed.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.InCenter);
-    } catch (err) {
-      vscode.window.showErrorMessage(`Cannot open ${file}`);
-      if (this.debug) {
-        console.error(`[Embedd Build Analyzer] Failed to open file: ${file}`, err);
-      }
+        this.view.webview.postMessage({
+            command: 'showMapData',
+            data: regions,
+            currentBuildFolderRelativePath: buildFolder
+        });
     }
-  }
 
-  private getHtml(): string {
-    const webview = this.view.webview;
-    const extensionPath = this.context.extensionPath;
+    private async openFile(file: string, line: number) {
+        try {
+            if (this.debug) {
+                console.log(`[Embedd Build Analyzer] Attempting to open file: ${file} @ ${line}`);
+            }
 
-    // Generate nonce for script security
-    const nonce = getNonce();
+            const uri = vscode.Uri.file(file);
+            const doc = await vscode.workspace.openTextDocument(uri);
+            const ed = await vscode.window.showTextDocument(doc);
+            const pos = new vscode.Position(line - 1, 0);
+            ed.selection = new vscode.Selection(pos, pos);
+            ed.revealRange(new vscode.Range(pos, pos), vscode.TextEditorRevealType.InCenter);
+        } catch (err) {
+            vscode.window.showErrorMessage(`Cannot open ${file}`);
+            if (this.debug) {
+                console.error(`[Embedd Build Analyzer] Failed to open file: ${file}`, err);
+            }
+        }
+    }
 
-    // Build CSP
-    const csp = `default-src 'none'; img-src ${webview.cspSource} blob:; script-src 'nonce-${nonce}' ${webview.cspSource}; style-src ${webview.cspSource} 'unsafe-inline';`;
+    private getHtml(): string {
+        const webview = this.view.webview;
+        const extensionPath = this.context.extensionPath;
 
-    // Get URIs for resources
-    const scriptUri = webview.asWebviewUri(
-      vscode.Uri.file(path.join(extensionPath, 'dist', 'build-analyzer.bundle.js'))
-    );
-    const icon1Uri = webview.asWebviewUri(
-      vscode.Uri.file(path.join(extensionPath, 'resources', '1.png'))
-    );
-    const icon2Uri = webview.asWebviewUri(
-      vscode.Uri.file(path.join(extensionPath, 'resources', '2.png'))
-    );
-    const icon3Uri = webview.asWebviewUri(
-      vscode.Uri.file(path.join(extensionPath, 'resources', '3.png'))
-    );
+        // Generate nonce for script security
+        const nonce = getNonce();
 
-    // Read HTML template
-    let html = fs.readFileSync(
-      path.join(extensionPath, 'resources', 'build-analyzer.html'),
-      { encoding: 'utf8', flag: 'r' }
-    );
+        // Build CSP
+        const csp = `default-src 'none'; img-src ${webview.cspSource} blob:; script-src 'nonce-${nonce}' ${webview.cspSource}; style-src ${webview.cspSource} 'unsafe-inline';`;
 
-    // Replace placeholders
-    html = html
-      .replace(/\$\{csp\}/g, csp)
-      .replace(/\$\{nonce\}/g, nonce)
-      .replace(/\$\{scriptUri\}/g, scriptUri.toString());
+        // Get URIs for resources
+        const scriptUri = webview.asWebviewUri(
+            vscode.Uri.file(path.join(extensionPath, 'dist', 'build-analyzer.bundle.js'))
+        );
+        const icon1Uri = webview.asWebviewUri(
+            vscode.Uri.file(path.join(extensionPath, 'resources', '1.png'))
+        );
+        const icon2Uri = webview.asWebviewUri(
+            vscode.Uri.file(path.join(extensionPath, 'resources', '2.png'))
+        );
+        const icon3Uri = webview.asWebviewUri(
+            vscode.Uri.file(path.join(extensionPath, 'resources', '3.png'))
+        );
 
-    // Add data attributes for icon URIs to body tag
-    html = html.replace(
-      '<body>',
-      `<body data-icon1-uri="${icon1Uri}" data-icon2-uri="${icon2Uri}" data-icon3-uri="${icon3Uri}">`
-    );
+        // Read HTML template
+        let html = fs.readFileSync(
+            path.join(extensionPath, 'resources', 'build-analyzer.html'),
+            { encoding: 'utf8', flag: 'r' }
+        );
 
-    return html;
-  }
+        // Replace placeholders
+        html = html
+            .replace(/\$\{csp\}/g, csp)
+            .replace(/\$\{nonce\}/g, nonce)
+            .replace(/\$\{scriptUri\}/g, scriptUri.toString());
+
+        // Add data attributes for icon URIs to body tag
+        html = html.replace(
+            '<body>',
+            `<body data-icon1-uri="${icon1Uri}" data-icon2-uri="${icon2Uri}" data-icon3-uri="${icon3Uri}">`
+        );
+
+        return html;
+    }
 }
