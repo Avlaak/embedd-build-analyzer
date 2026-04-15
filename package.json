@@ -29,7 +29,7 @@
     "commands": [
       {
         "command": "EmbeddBuildAnalyzer.openTab",
-        "title": "Embedd Build Analyzer"
+        "title": "Embedd Build Analyzer: Open Analyzer"
       },
       {
         "command": "EmbeddBuildAnalyzer.refresh",
