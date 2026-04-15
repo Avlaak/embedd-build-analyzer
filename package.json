@@ -33,7 +33,11 @@
       },
       {
         "command": "EmbeddBuildAnalyzer.refresh",
-        "title": "Embedd Build Analyzer Refresh Paths"
+        "title": "Embedd Build Analyzer: Refresh Analyze"
+      },
+      {
+        "command": "EmbeddBuildAnalyzer.refreshPaths",
+        "title": "Embedd Build Analyzer: Change Build Paths"
       },
       {
         "command": "EmbeddBuildAnalyzer.checkUpdates",
