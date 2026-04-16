@@ -106,8 +106,10 @@ Visual memory analyzer for embedded projects – works with `.map` and `.elf` fi
 ## 🛠 Usage
 
 - Open the Command Palette (`Ctrl+Shift+P`) and run:
-  - `Embedd Build Analyzer` – opens the main view
-  - `Embedd Build Analyzer Refresh Paths` – re-detects build output folder
+  - `Embedd Build Analyzer: Open Analyzer` – opens the main view
+  - `Embedd Build Analyzer: Refresh Analyze` – re-runs the analysis
+  - `Embedd Build Analyzer: Change Build Paths` – re-detects build output folder
+  - `Embedd Build Analyzer: Check for updates` – manually checks for extension updates
 - Analyzer view updates automatically when build output files change.
 
 ---
