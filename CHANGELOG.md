@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.8] - 2026-07-03
+
+### Changed
+- Show the selected build target name before the build folder path in the analyzer header.
+- Improve analyzer toolbar button styling while keeping search option buttons lightweight.
+
 ## [1.1.7] – 2026-04-15
 
 ### Added

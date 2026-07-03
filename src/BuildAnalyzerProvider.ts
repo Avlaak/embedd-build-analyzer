@@ -64,8 +64,9 @@ export class BuildAnalyzerProvider implements vscode.WebviewViewProvider {
             }
 
             const rel = path.relative(root, this.paths.map);
+            const targetName = path.basename(this.paths.elf, path.extname(this.paths.elf));
 
-            this.renderer?.showData(regions, path.dirname(rel));
+            this.renderer?.showData(regions, path.dirname(rel), targetName);
 
             if (this.debug) {
                 console.log(`[Embedd Build Analyzer] Parsed ${regions.length} region(s)`);

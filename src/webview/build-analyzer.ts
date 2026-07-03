@@ -684,7 +684,8 @@ window.addEventListener('message', event => {
             if (message.currentBuildFolderRelativePath) {
                 const folderDiv = document.getElementById('buildFolderPath');
                 if (folderDiv) {
-                    folderDiv.textContent = message.currentBuildFolderRelativePath;
+                    const target = message.currentBuildTarget || 'Unknown target';
+                    folderDiv.textContent = `${target}: ${message.currentBuildFolderRelativePath}`;
                 }
             }
             // Reset search when data is refreshed

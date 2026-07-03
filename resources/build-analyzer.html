@@ -66,7 +66,7 @@
             cursor: pointer;
             background-color: var(--vscode-button-secondaryBackground);
             color: var(--vscode-button-secondaryForeground);
-            border: none;
+            border: 1px solid var(--vscode-button-border, var(--vscode-panel-border));
             border-radius: 2px;
             height: 26px;
             box-sizing: border-box;
@@ -78,6 +78,14 @@
         #refreshButton:hover,
         #refreshPathsButton:hover {
             background-color: var(--vscode-button-secondaryHoverBackground);
+            border-color: var(--vscode-focusBorder);
+        }
+
+        #refreshButton:focus-visible,
+        #refreshPathsButton:focus-visible,
+        .search-option:focus-visible {
+            outline: 1px solid var(--vscode-focusBorder);
+            outline-offset: 1px;
         }
 
         .button-container {
@@ -312,7 +320,6 @@
         <div class="button-container-sticky">
             <div class="left-controls">
                 <div class="build-folder-info">
-                    <label><strong>Current Build Folder:</strong></label>
                     <span id="buildFolderPath"></span>
                 </div>
                 <button id="refreshPathsButton" class="button">Change</button>
